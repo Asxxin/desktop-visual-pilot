@@ -126,11 +126,11 @@ def type_text(text):
     win32clipboard.OpenClipboard(); win32clipboard.EmptyClipboard()
     win32clipboard.SetClipboardData(win32clipboard.CF_UNICODETEXT, text)
     win32clipboard.CloseClipboard()
-    wa.key_event(0x11, 0x1D, wc.KEYEVENTF_KEYUP, 0)  # 松开可能的 ctrl
-    wa.key_event(0x11, 0x1D, 0, 0)  # ctrl down
-    wa.key_event(0x56, 0x2F, 0, 0)  # V down
-    wa.key_event(0x56, 0x2F, wc.KEYEVENTF_KEYUP, 0)
-    wa.key_event(0x11, 0x1D, wc.KEYEVENTF_KEYUP, 0)
+    wa.keybd_event(0x11, 0x1D, wc.KEYEVENTF_KEYUP, 0)  # 松开可能的 ctrl
+    wa.keybd_event(0x11, 0x1D, 0, 0)  # ctrl down
+    wa.keybd_event(0x56, 0x2F, 0, 0)  # V down
+    wa.keybd_event(0x56, 0x2F, wc.KEYEVENTF_KEYUP, 0)
+    wa.keybd_event(0x11, 0x1D, wc.KEYEVENTF_KEYUP, 0)
     return {"typed": text}
 
 def key(keys):
@@ -146,10 +146,10 @@ def key(keys):
     codes = [VK.get(k, ord(k.upper()) if len(k) == 1 else None) for k in seq]
     codes = [c for c in codes if c is not None]
     for c in codes:
-        wa.key_event(c, 0, 0, 0)
+        wa.keybd_event(c, 0, 0, 0)
     time.sleep(0.05)
     for c in reversed(codes):
-        wa.key_event(c, 0, wc.KEYEVENTF_KEYUP, 0)
+        wa.keybd_event(c, 0, wc.KEYEVENTF_KEYUP, 0)
     return {"keys": seq, "codes": codes}
 
 def focus(title_kw, maximize=False):
